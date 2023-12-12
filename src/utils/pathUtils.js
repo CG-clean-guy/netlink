@@ -21,12 +21,35 @@ export function detectPathType(path) {
 export function convertPath(path, pathType) {
     switch (pathType) {
         case 'windows':
-            return path.replace(/\\/g, '/').replace(/([A-Z]):\//, '/$1/');
+            // Assuming path is like A:\Some\Directory or K:\Some\Directory
+            const [, driveLetter, restOfWinPath] = path.match(/^([A-Z]):\\(.*)$/);
+            const networkDrive = driveLetter === 'K' ? 'Media' : 'Media-1';
+            const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
+            return `/Volumes${convertedPath}`;
         case 'mac':
-            return path.replace(/^\//, '').replace(/\//g, '\\').replace(/^([A-Z])\\/, '$1:\\');
+            // Assuming path is like /Volumes/Media-1/Some/Directory or /Volumes/Media/Some/Directory
+            if (path.startsWith('/Volumes/Media-1')) {
+                return path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\');
+            } else if (path.startsWith('/Volumes/Media')) {
+                return path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\');
+            } else {
+                return path; // handle invalid Mac path
+            }
         case 'network':
             return path.replace(/^\/\/|\\\\/, 'smb://').replace(/\\/g, '/');
         default:
             return path; // or throw an error if invalid path
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
