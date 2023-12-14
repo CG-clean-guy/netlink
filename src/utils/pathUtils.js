@@ -21,15 +21,21 @@ export function detectPathType(path) {
 export function convertPath(path, pathType) {
     switch (pathType) {
         case 'windows':
-            // Assuming path is like A:\Some\Directory or K:\Some\Directory
+            // Assuming path is like G:\Some\Directory
             const [, driveLetter, restOfWinPath] = path.match(/^([A-Z]):\\(.*)$/);
-            const networkDrive = driveLetter === 'K' ? 'Media' : 'Media-1';
-            const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
-            return `/Volumes${convertedPath}`;
+            if (driveLetter.toLowerCase() === 'g') {
+                return restOfWinPath.replace(/\\/g, '/');
+            } else {
+                const networkDrive = driveLetter === 'K' ? 'Media' : 'Media-1';
+                const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
+                return `/Volumes${convertedPath}`;
+            }
         case 'mac':
-            // Assuming path is like /Volumes/Media-1/Some/Directory or /Volumes/Media/Some/Directory
+            // Assuming path is like /user/jcrsoohf/dfajofj/Shared drives/Creative/Product Labels/_Packaging/HOL373 - Deluxe Clean, Shine, & Protect Car Detailing Kit
             if (path.startsWith('/Volumes/Media-1')) {
                 return path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\');
+            } else if (path.includes('/Shared drives/')) {
+                return path.replace(/.*\/Shared drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\');
             } else if (path.startsWith('/Volumes/Media')) {
                 return path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\');
             } else {
@@ -41,6 +47,7 @@ export function convertPath(path, pathType) {
             return path; // or throw an error if invalid path
     }
 }
+
 
 
 
