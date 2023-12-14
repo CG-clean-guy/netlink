@@ -51,7 +51,7 @@ const playSound = () => {
         </div>
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={3500}
           className="text-sm"
         />
       </nav>
