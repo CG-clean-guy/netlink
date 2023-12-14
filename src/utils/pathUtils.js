@@ -24,27 +24,26 @@ export function convertPath(path, pathType) {
             // Assuming path is like G:\Some\Directory
             const [, driveLetter, restOfWinPath] = path.match(/^([A-Z]):\\(.*)$/);
             if (driveLetter.toLowerCase() === 'g') {
-                return restOfWinPath.replace(/\\/g, '/');
+                return {convertedPath: restOfWinPath.replace(/\\/g, '/'), notification: "G-Drive links from Windows to Mac are not fully supported"};
             } else {
-                const networkDrive = driveLetter === 'K' ? 'Media' : 'Media-1';
+                const networkDrive = driveLetter.toLowerCase() === 'k' ? 'Media' : 'Media-1';
                 const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
-                return `/Volumes${convertedPath}`;
+                return {convertedPath: `/Volumes${convertedPath}`, notification: null};
             }
         case 'mac':
-            // Assuming path is like /user/jcrsoohf/dfajofj/Shared drives/Creative/Product Labels/_Packaging/HOL373 - Deluxe Clean, Shine, & Protect Car Detailing Kit
             if (path.startsWith('/Volumes/Media-1')) {
-                return path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\');
+                return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
             } else if (path.includes('/Shared drives/')) {
-                return path.replace(/.*\/Shared drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\');
+                return {convertedPath: path.replace(/.*\/Shared drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
             } else if (path.startsWith('/Volumes/Media')) {
-                return path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\');
+                return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
             } else {
-                return path; // handle invalid Mac path
+                return {convertedPath: path, notification: null}; // handle invalid Mac path
             }
         case 'network':
-            return path.replace(/^\/\/|\\\\/, 'smb://').replace(/\\/g, '/');
+            return {convertedPath: path.replace(/^\/\/|\\\\/, 'smb://').replace(/\\/g, '/'), notification: null};
         default:
-            return path; // or throw an error if invalid path
+            return {convertedPath: path, notification: null}; // or throw an error if invalid path
     }
 }
 

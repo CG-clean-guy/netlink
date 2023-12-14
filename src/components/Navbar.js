@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = ({toggleHelp, setToggleHelp}) => {
@@ -17,7 +17,7 @@ const playSound = () => {
     <>
       <nav className="fixed top-0 left-0 max-h-12 w-full flex flex-1 flex-row bg-yellow-500 text-black">
         <div>
-          <div className="h-10 flex flex-1 items-center justify-start mx-3" onClick={playSound}>
+          <div className="h-10 flex flex-1 items-center justify-start mx-3 cursor-pointer hover:scale-105 transition-all duration-300" onClick={playSound}>
             <img src="cglogo.png" alt="logo" className="h-8" />
           </div>
         </div>
@@ -49,11 +49,6 @@ const playSound = () => {
             Login
           </button>
         </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={3500}
-          className="text-sm"
-        />
       </nav>
     </>
   );

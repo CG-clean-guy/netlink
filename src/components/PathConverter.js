@@ -23,25 +23,28 @@ function PathConverter() {
     }
   }, [convertedPath]);
 
-  const validateAndConvertPath = useCallback(
-    debounce((path) => {
-      const pathType = detectPathType(path);
-      if (pathType === "invalid") {
-        toast.error("Invalid file path 😫");
-        setConvertedPath("");
-        setPathOS("");
-      } else {
-        setConvertedPath(convertPath(path, pathType));
-        setPathOS(pathType);
-        if (pathType !== "invalid") {
-          buttonSound
-            .play()
-            .catch((err) => console.error("Error playing sound:", err));
-        }
+  const debouncedFunction = debounce((path) => {
+    const pathType = detectPathType(path);
+    if (pathType === "invalid") {
+      toast.error("Invalid file path 😫");
+      setConvertedPath("");
+      setPathOS("");
+    } else {
+      const { convertedPath, notification } = convertPath(path, pathType);
+      setConvertedPath(convertedPath);
+      setPathOS(pathType);
+  
+      if (notification) {
+        toast.info(notification);
+      } else if (pathType !== "invalid") {
+        buttonSound
+          .play()
+          .catch((err) => console.error("Error playing sound:", err));
       }
-    }, 300),
-    []
-  );
+    }
+  }, 300);
+  
+  const validateAndConvertPath = useCallback(debouncedFunction, [debouncedFunction]); 
 
   const handleInputChange = (event) => {
     const path = event.target.value;
@@ -88,7 +91,7 @@ function PathConverter() {
       </div>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={2500}
         className="text-sm"
       />
     </div>

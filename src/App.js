@@ -7,12 +7,17 @@ import PathConverter from "./components/PathConverter";
 function App() {
   const [toggleHelp, setToggleHelp] = useState(false)
 
+  const playSound = () => {
+    const heySound = new Audio("/karatechop.mp3");
+    heySound.play();
+  };
+
   return (
     <div className="flex flex-col items-center bg-black/70 h-screen">
       <header className="text-white font-semibold mb-10">
         <Navbar toggleHelp={toggleHelp} setToggleHelp={setToggleHelp} />
         <div className="flex flex-col justify-center items-center mt-10">
-          <img src="cglogo.png" alt="Logo" className="w-20 h-20 mt-5"/>
+          <img src="cglogo.png" alt="Logo" onClick={playSound} className="w-20 h-20 mt-5 cursor-pointer hover:scale-105 hover:animate-spin transition-all duration-300"/>
           <h1 className="font-bold text-lg m-4">Welcome to PathLink</h1>
           {toggleHelp && (
           <Hero />
