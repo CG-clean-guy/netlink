@@ -8,22 +8,22 @@ const Hero = () => {
           <h1 className="font-extrabold text-5xl mr-2 text-green-200">1</h1>
           <p>
             This is a very simple app used to share local or network drives with
-            friends or coworkers.
+            CG coworkers.
           </p>
         </div>
         <div className="flex flex-row justify-start items-start">
           <h1 className="font-extrabold text-5xl mr-2 text-green-200">2</h1>
           <p>
-            Simply copy the directory path from either File Explorer or Finder,
-            and past into the input box.
+            Simply copy the directory path from either Windows File Explorer or macOS Finder,
+            and paste into the input box.
           </p>
         </div>
         <div className="flex flex-row justify-start items-start">
           <h1 className="font-extrabold text-5xl mr-2 text-green-200">3</h1>
           <p>
-            PathLink will determine which OS you are using, and automatically
-            convert the link to the opposite type and copy the path to the
-            clipboard for easy sharing!
+            PathLink will determine which OS you are using, automatically
+            convert the link to the opposite format, and copy the new path to the
+            clipboard for easy sharing. All you have to do is paste, and paste!
           </p>
         </div>
       </div>
