@@ -58,24 +58,44 @@ function PathConverter() {
     setPathOS("");
   };
 
+  const pasteInput = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      setInputPath(clipboardText);
+      validateAndConvertPath(clipboardText);
+    } catch (error) {
+      console.error("Error reading from clipboard:", error);
+      toast.error("Failed to read from clipboard 🤔");
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
-      <div className="flex flex-row flex-1 w-full items-center justify-center space-x-2">
+      <div className="flex flex-col md:flex-row flex-1 w-full items-center justify-center">
+      
+         
+      
         <input
           type="text"
           value={inputPath}
           onChange={handleInputChange}
           placeholder="Paste file path here..."
-          className="border rounded-md p-2 my-5 text-black w-3/5 truncate-right"
+          className="border rounded-md p-2 my-5 text-black w-2/5 truncate-right"
         />
-        {inputPath && (
-          <button
+     <div className="flex flex-row mb-3 md:mb-0">
+     <button
             onClick={clearInput}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+            className="gbutton textbutton"
           >
-            X
+            CLEAR
           </button>
-        )}
+        <button
+          onClick={pasteInput}
+          className="gbutton textbutton"
+        >
+          PASTE
+        </button>
+        </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center">
         {pathOS && (
