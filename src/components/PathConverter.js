@@ -23,6 +23,8 @@ function PathConverter() {
     }
   }, [convertedPath]);
 
+  
+
   const debouncedFunction = debounce((path) => {
     const pathType = detectPathType(path);
     if (pathType === "invalid") {
@@ -69,6 +71,18 @@ function PathConverter() {
     }
   };
 
+  const copyPath = () => {
+    if (convertedPath) {
+      navigator.clipboard
+        .writeText(convertedPath)
+        .then(() => toast.success("Converted path copied to clipboard! 🎉"))
+        .catch((err) => {
+          console.error("Failed to copy converted path: ", err);
+          toast.error("Failed to copy converted path to clipboard 🤔");
+        });
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <div className="flex flex-col md:flex-row flex-1 w-full items-center justify-center">
@@ -98,16 +112,31 @@ function PathConverter() {
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center">
-        {pathOS && (
+        {pathOS ? (
           <h1 className="text-sm text-white animate-pulse mb-2">
-            {pathOS} path detected...
+          <span className="text-yellow-400">{pathOS}</span> path detected...
+          </h1>
+        ) : (
+          <h1 className="text-sm text-white animate-pulse mb-2">
+          <span className="text-yellow-400">{pathOS}</span> detecting path...
           </h1>
         )}
-        <h2 className="text-base text-white">
-          <code className="text-green-300">
-            Converted Path: <span className="text-white">{convertedPath}</span>
-          </code>
+      
+        {convertedPath && (
+            <div className="flex flex-row justify-center items-center">
+        <h2 className="text-sm text-white">
+          
+            Converted Path: <span className="text-white"><code onClick={copyPath} className="bg-black/30 border-2 border-black p-2 rounded-lg text-green-200 font-mono text-sm ml-1 cursor-pointer hover:bg-neutral-700 transition-all duration-150 ease-in">{convertedPath}</code></span>
+        
         </h2>
+         <button
+          onClick={copyPath}
+          className="bg-black/70 p-2 border-2 border-black hover:bg-black/30 rounded-md ml-1 gbutton"
+        >
+          <img src="clipboard.svg" alt="copy" className="w-4 h-4 hover:text-green-300" />
+        </button>
+        </div>
+        )}
       </div>
       <ToastContainer
         position="top-center"

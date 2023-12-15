@@ -13,7 +13,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-black/70 h-screen">
+    <div className="flex flex-col items-center bg-black/80 h-screen">
       <header className="text-white font-semibold mb-10">
         <Navbar toggleHelp={toggleHelp} setToggleHelp={setToggleHelp} />
         <div className="flex flex-col justify-center items-center mt-10">
