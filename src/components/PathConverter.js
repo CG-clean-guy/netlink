@@ -111,7 +111,7 @@ function PathConverter() {
         </button>
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center">
+      <div className="w-full flex flex-col justify-center items-center mt-5">
         {pathOS ? (
           <h1 className="text-sm text-white animate-pulse mb-2">
           <span className="text-yellow-400">{pathOS}</span> path detected...
@@ -123,12 +123,9 @@ function PathConverter() {
         )}
       
         {convertedPath && (
-            <div className="flex flex-row justify-center items-center">
-        <h2 className="text-sm text-white">
-          
-            Converted Path: <span className="text-white"><code onClick={copyPath} className="bg-black/30 border-2 border-black p-2 rounded-lg text-green-200 font-mono text-sm ml-1 cursor-pointer hover:bg-neutral-700 transition-all duration-150 ease-in">{convertedPath}</code></span>
-        
-        </h2>
+            <div className="flex flex-col md:flex-row justify-center items-center space-y-3 md:space-y-0 mt-5">
+        <h2 className="text-sm text-white md:mr-1">Converted Path:</h2>
+        <h1 className="text-white"><code onClick={copyPath} className="bg-black/30 border-2 border-black p-2 rounded-lg text-green-200 font-mono text-sm ml-1 cursor-pointer hover:bg-neutral-700 transition-all duration-150 ease-in">{convertedPath}</code></h1>
          <button
           onClick={copyPath}
           className="bg-black/70 p-2 border-2 border-black hover:bg-black/30 rounded-md ml-1 gbutton"
