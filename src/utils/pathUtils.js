@@ -33,8 +33,8 @@ export function convertPath(path, pathType) {
         case 'mac':
             if (path.startsWith('/Volumes/Media-1')) {
                 return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
-            } else if (path.includes('/Shared drives/')) {
-                return {convertedPath: path.replace(/.*\/Shared drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
+            } else if (path.includes('Shared Drives/')) {
+                return {convertedPath: path.replace(/.*Shared Drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
             } else if (path.startsWith('/Volumes/Media')) {
                 return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
             } else {
