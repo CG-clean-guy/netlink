@@ -18,7 +18,7 @@ export function detectPathType(path) {
 
 
 // Converts the path to the opposite format
-export function convertPath(path, pathType, user) {
+export function convertPath(path, pathType, user, selectedOption) {
     switch (pathType) {
         case 'windows':
             // Assuming path is like G:\Some\Directory
@@ -32,14 +32,26 @@ export function convertPath(path, pathType, user) {
                 return {convertedPath: `/Volumes${convertedPath}`, notification: null};
             }
         case 'mac':
-            if (path.startsWith('/Volumes/Media-1')) {
-                return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
-            } else if (path.includes('Shared drives/') || path.includes('Shared Drives/')) {
+            if (selectedOption==="ACE" && path.startsWith('/Volumes/Media-1')) {
+                    return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
+                }            
+            else if (selectedOption==="ACE" && path.startsWith('/Volumes/Media')) {
+                    return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
+                }
+            else if (selectedOption==="KEN" && path.startsWith('/Volumes/Media-1')) {
+                    return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
+                }
+            else if (selectedOption==="KEN" && path.startsWith('/Volumes/Media')) {
+                    return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
+                }
+            else if (selectedOption==="GOOGLE" && path.includes('Shared drives/')) {
                 return {convertedPath: path.replace(/.*Shared drives\//, 'G:\\Shared drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
-            } else if (path.startsWith('/Volumes/Media')) {
-                return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
-            } else {
-                return {convertedPath: path, notification: null}; // handle invalid Mac path
+                }
+            else if (selectedOption==="GOOGLE" && path.includes('Shared Drives/')) {
+                    return {convertedPath: path.replace(/.*Shared Drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
+            } 
+            else {
+                return {convertedPath: path, notification: "Invalid MAC Path: Please Check Your Link And Try Again"}; // handle invalid Mac path
             }
         case 'network':
             return {convertedPath: path.replace(/^\/\/|\\\\/, 'smb://').replace(/\\/g, '/'), notification: null};
@@ -47,16 +59,3 @@ export function convertPath(path, pathType, user) {
             return {convertedPath: path, notification: null}; // or throw an error if invalid path
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

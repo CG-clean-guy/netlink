@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .gbutton {
+        @apply active:scale-90 transition-all duration-150 ease-in
+    }
+
+    .textbutton {
+        @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 ml-1 rounded inline-flex items-center
+    }
+}
