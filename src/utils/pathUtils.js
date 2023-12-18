@@ -18,13 +18,14 @@ export function detectPathType(path) {
 
 
 // Converts the path to the opposite format
-export function convertPath(path, pathType) {
+export function convertPath(path, pathType, user) {
     switch (pathType) {
         case 'windows':
             // Assuming path is like G:\Some\Directory
             const [, driveLetter, restOfWinPath] = path.match(/^([A-Z]):\\(.*)$/);
             if (driveLetter.toLowerCase() === 'g') {
-                return {convertedPath: restOfWinPath.replace(/\\/g, '/'), notification: "G-Drive links from Windows to Mac are not fully supported"};
+                const convertedPath = `/Users/${user.user}/Library/CloudStorage/GoogleDrive-${user.guser}/${restOfWinPath.replace(/\\/g, '/')}`;
+                return { convertedPath, notification: "Converted G-Drive path from Windows to Mac" };
             } else {
                 const networkDrive = driveLetter.toLowerCase() === 'k' ? 'Media' : 'Media-1';
                 const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
@@ -33,8 +34,8 @@ export function convertPath(path, pathType) {
         case 'mac':
             if (path.startsWith('/Volumes/Media-1')) {
                 return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
-            } else if (path.includes('Shared Drives/')) {
-                return {convertedPath: path.replace(/.*Shared Drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
+            } else if (path.includes('Shared drives/') || path.includes('Shared Drives/')) {
+                return {convertedPath: path.replace(/.*Shared drives\//, 'G:\\Shared drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
             } else if (path.startsWith('/Volumes/Media')) {
                 return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
             } else {

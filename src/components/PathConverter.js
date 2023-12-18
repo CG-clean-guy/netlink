@@ -5,11 +5,13 @@ import { debounce } from "../utils/debounce";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function PathConverter() {
+function PathConverter(props) {
+  const { user } = props
   const [inputPath, setInputPath] = useState("");
   const [convertedPath, setConvertedPath] = useState("");
   const [pathOS, setPathOS] = useState("");
   const buttonSound = new Audio("/button.aac");
+
 
   useEffect(() => {
     if (convertedPath) {
@@ -32,7 +34,7 @@ function PathConverter() {
       setConvertedPath("");
       setPathOS("");
     } else {
-      const { convertedPath, notification } = convertPath(path, pathType);
+      const { convertedPath, notification } = convertPath(path, pathType, user);
       setConvertedPath(convertedPath);
       setPathOS(pathType);
   
@@ -85,9 +87,10 @@ function PathConverter() {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen">
+      <div className="w-screen flex flex-col">
+          
       <div className="flex flex-col md:flex-row flex-1 w-full items-center justify-center">
-      
-         
+             
       
         <input
           type="text"
@@ -135,11 +138,9 @@ function PathConverter() {
         </div>
         )}
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2500}
-        className="text-sm"
-      />
+   
+      </div>
+   
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Navbar = ({toggleHelp, setToggleHelp}) => {
+const Navbar = ({toggleHelp, setToggleHelp, user, onLogout, onLogin}) => {
 
 const handleHelpToggle =() => {
   setToggleHelp(!toggleHelp)
@@ -46,8 +46,9 @@ const playSound = () => {
           <button
             onClick={() => toast.warning("Not ready yet! Check back soon.")}
           >
-            Login
+            {user? `${user.name}` : "Login"}
           </button>
+          {user && (<button onClick={onLogout} className="ml-5">Log Out</button>)}
         </div>
       </nav>
     </>
