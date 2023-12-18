@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { detectPathType, convertPath } from "../utils/pathUtils";
 import { debounce } from "../utils/debounce";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function PathConverter(props) {

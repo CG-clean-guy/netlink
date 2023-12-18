@@ -4,7 +4,7 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import PathConverter from "./components/PathConverter";
 import Login from "./components/Login";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [toggleHelp, setToggleHelp] = useState(false) 
