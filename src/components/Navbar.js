@@ -44,7 +44,7 @@ const playSound = () => {
         </ul>
         <div className="flex flex-1 justify-end items-center text-sm mx-4">
           <button
-            onClick={() => toast.warning("Not ready yet! Check back soon.")}
+            onClick={() => {user? toast.success(`Hi, ${user.name}! `) : toast.warning("If you need a username and password please contact the program administrator.")}}
           >
             {user? `${user.name}` : "Login"}
           </button>
