@@ -46,7 +46,10 @@ const playSound = () => {
           <button
             onClick={() => {user? toast.success(`Hi, ${user.name}! `) : toast.warning("If you need a username and password please contact the program administrator.")}}
           >
+            <div className="flex flex-row items-center">
+            {user && (<img src={user.img} alt={user.name} className="w-5 h-5 rounded-full mr-1 border-[1px] border-black drop-shadow-md" />)}
             {user? `${user.name}` : "Login"}
+            </div>
           </button>
           {user && (<button onClick={onLogout} className="ml-5">Log Out</button>)}
         </div>
