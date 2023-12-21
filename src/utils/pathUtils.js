@@ -31,31 +31,36 @@ export function convertPath(path, pathType, user, selectedOption) {
                 const convertedPath = `/${networkDrive}/${restOfWinPath.replace(/\\/g, '/')}`;
                 return {convertedPath: `/Volumes${convertedPath}`, notification: null};
             }
-        case 'mac':
-            if (selectedOption==="ACE" && path.startsWith('/Volumes/Media-1')) {
-                    return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
-                }            
-            else if (selectedOption==="ACE" && path.startsWith('/Volumes/Media')) {
-                    return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'A:\\').replace(/\//g, '\\'), notification: "ACE Drive Path Copied to Windows"};
+            case 'mac':
+                const driveLetterMap = {
+                    'ACE': 'A',
+                    'KEN': 'K',
+                    'GOOGLE': 'G',
+                };
+    
+                const driveLetters = driveLetterMap[selectedOption];
+    
+                if (driveLetters) {
+                    if (path.startsWith(`/Volumes/Media`)) {
+                        // Replace '/Volumes/Media' and any number that follows with the drive letter
+                        const convertedPath = path.replace(/^\/Volumes\/Media(-\d+)?\//, `${driveLetters}:\\`).replace(/\//g, '\\');
+                        const notification = `${selectedOption} Drive Path Copied to Windows`;
+                        return { convertedPath, notification };
+                    } else if (selectedOption === "GOOGLE" && (path.includes('Shared drives/') || path.includes('Shared Drives/'))) {
+                        // Handle GOOGLE option with "Shared drives" or "Shared Drives"
+                        const prefix = path.includes('Shared drives/') ? 'Shared drives' : 'Shared Drives';
+                        const convertedPath = path.replace(new RegExp(`.*${prefix}/`), `${driveLetters}:\\${prefix}\\`).replace(/\//g, '\\');
+                        const notification = "G Drive Path Copied to Windows";
+                        return { convertedPath, notification };
+                    }
                 }
-            else if (selectedOption==="KEN" && path.startsWith('/Volumes/Media-1')) {
-                    return {convertedPath: path.replace(/^\/Volumes\/Media-1\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
-                }
-            else if (selectedOption==="KEN" && path.startsWith('/Volumes/Media')) {
-                    return {convertedPath: path.replace(/^\/Volumes\/Media\//, 'K:\\').replace(/\//g, '\\'), notification: "KEN Drive Path Copied to Windows"};
-                }
-            else if (selectedOption==="GOOGLE" && path.includes('Shared drives/')) {
-                return {convertedPath: path.replace(/.*Shared drives\//, 'G:\\Shared drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
-                }
-            else if (selectedOption==="GOOGLE" && path.includes('Shared Drives/')) {
-                    return {convertedPath: path.replace(/.*Shared Drives\//, 'G:\\Shared Drives\\').replace(/\//g, '\\'), notification: "G Drive Path Copied to Windows"};
-            } 
-            else {
-                return {convertedPath: path, notification: "Invalid MAC Path: Please Check Your Link And Try Again"}; // handle invalid Mac path
-            }
-        case 'network':
-            return {convertedPath: path.replace(/^\/\/|\\\\/, 'smb://').replace(/\\/g, '/'), notification: null};
-        default:
-            return {convertedPath: path, notification: null}; // or throw an error if invalid path
+                // If driveLetters is undefined, handle as an invalid MAC path
+                return { convertedPath: path, notification: "Invalid MAC Path: Please Check Your Link And Try Again" };
+            // ... (remaining cases)
+              default: 
+        return { convertedPath: path, notification: null 
+        }
+        // Return a default object if no matching case is found
+      
     }
 }
