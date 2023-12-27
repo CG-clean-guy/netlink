@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Hero from "./Hero";
 
 const Navbar = ({toggleHelp, setToggleHelp, user, onLogout, onLogin}) => {
 
@@ -37,11 +38,14 @@ const playSound = () => {
           <li className="hover:text-gray-500 active:scale-90 transition-all duration-150 ease-in">
             <button
               onClick={handleHelpToggle}
-            >
-              {toggleHelp? "Minimize Help" : "Help"}
+            ><div className="flex flex-row">Help <h1 className={`ml-1 transition-transform duration-200 ${toggleHelp ? "rotate-90" : "rotate-0"}`}>→</h1></div>
+              
             </button>
           </li>
         </ul>
+          <div className={`absolute top-12 left-10 md:left-20 bg-neutral-400 border-2 shadow-md drop-shadow-lg p-5 rounded-xl transition-all duration-300 ease-in-out ${toggleHelp ? "z-50 opacity-100 translate-y-1" : "-z-50 opacity-0 -translate-y-1 invisible"}`}>
+          <Hero />
+          </div>
         <div className="flex flex-1 justify-end items-center text-md mx-4">
           <button
             onClick={() => {user? toast.success(`Hi, ${user.name}! `) : toast.warning("If you need a username and password please contact the program administrator.")}}

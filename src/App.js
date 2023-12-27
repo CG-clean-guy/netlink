@@ -27,12 +27,10 @@ function App() {
     <div className="flex flex-col items-center bg-black/80 h-screen">
       <header className="text-white font-semibold mb-10">
         <Navbar toggleHelp={toggleHelp} setToggleHelp={setToggleHelp} user={user} onLogout={handleLogout} onLogin={handleLogin} />
-        <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col justify-center items-center mt-14">
           <img src="cglogo.png" alt="Logo" onClick={playSound} className="w-20 h-20 mt-5 cursor-pointer hover:scale-105 hover:animate-spin transition-all duration-300"/>
           <h1 className="font-bold text-lg m-4">Welcome to PathLink{user? `, ${user.name}!`: "!"}</h1>
-          {toggleHelp && (
-          <Hero />
-          )}
+      
         </div>
       </header>
       <div className="flex flex-col justify-center items-center w-screen">
